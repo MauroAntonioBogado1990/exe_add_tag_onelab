@@ -39,7 +39,7 @@
     </field>
 </record>
 
-<!-- este record se tiene que habilitar en el cliente
+<!-- este record se tiene que habilitar en el cliente-->
 <record id="view_product_template_form_ncm_string" model="ir.ui.view">
     <field name="name">product.template.form.ncm.string</field>
     <field name="model">product.template</field>
@@ -50,7 +50,7 @@
         </xpath>
     </field>
 </record>
--->
+
 
 
 
