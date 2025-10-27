@@ -1,0 +1,41 @@
+    <odoo>
+        
+<record id="view_product_template_form_onelab" model="ir.ui.view">
+    <field name="name">product.template.form.onelab</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_only_form_view"/>
+    <field name="arch" type="xml">
+        <xpath expr="//sheet/notebook" position="inside">
+            <page string="ONELAB">
+                <group string="Certificaciones y Seguridad">
+                    <field name="onelab_electric_safety"/>
+                    <field name="onelab_simela"/>
+                    <field name="onelab_gtin"/>
+                    <field name="onelab_cas_code"/>
+                </group>
+                <group string="SENASA">
+                    <field name="onelab_senasa_cert_number"/>
+                    <field name="onelab_senasa_expiration"/>
+                    <field name="onelab_senasa_alert" readonly="1"/>
+                </group>
+                <group string="ANMAT">
+                    <field name="onelab_anmat_entity_type"/>
+                    <field name="onelab_anmat_cert_number"/>
+                    <field name="onelab_anmat_validity"/>
+                    <field name="onelab_anmat_attachment" filename="onelab_anmat_attachment_filename"/>
+                </group>
+                <group string="RENPRE">
+                    <field name="onelab_renpre_required"/>
+                    <field name="onelab_renpre_type" modifiers='{"invisible": [["onelab_renpre_required", "=", false]]}'/>
+                </group>
+                <group string="Vencimiento mínimo aceptado">
+                    <field name="onelab_min_expiry_days"/>
+                </group>
+            </page>
+        </xpath>
+    </field>
+</record>
+
+
+
+    </odoo>
