@@ -5,7 +5,10 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     # ONELAB - Seguridad y certificaciones
-    onelab_electric_safety = fields.Boolean(string='Seguridad Eléctrica')
+    onelab_electric_safety = fields.Selection([
+    ('yes', 'Sí'),
+    ('no', 'No'),
+    ], string='Seguridad Eléctrica')
     onelab_cas_code = fields.Char(string='CAS')
     onelab_gtin = fields.Char(string='GTIN')
 
@@ -14,8 +17,9 @@ class ProductTemplate(models.Model):
     onelab_senasa_expiration = fields.Date(string='Vencimiento SENASA')
     onelab_senasa_alert = fields.Boolean(string='Alerta de vencimiento SENASA', compute='_compute_senasa_alert', store=True)
 
+    
     # SIMELA
-    onelab_simela = fields.Boolean(string='SIMELA')
+    onelab_simela = fields.Selection([('yes', 'Sí'),('no', 'No'),],string='SIMELA')
 
     # ANMAT
     onelab_anmat_entity_type = fields.Char(string='Tipo de entidad ANMAT')
@@ -25,7 +29,10 @@ class ProductTemplate(models.Model):
     onelab_anmat_attachment_filename = fields.Char(string='Nombre del archivo ANMAT')
 
     # RENPRE
-    onelab_renpre_required = fields.Boolean(string='¿Requiere RENPRE?')
+    onelab_renpre_required = fields.Selection([
+    ('yes', 'Sí'),
+    ('no', 'No'),
+    ],string='¿Requiere RENPRE?')
     onelab_renpre_type = fields.Selection([
         ('lista_i', 'LISTA I'),
         ('lista_ii', 'LISTA II'),
