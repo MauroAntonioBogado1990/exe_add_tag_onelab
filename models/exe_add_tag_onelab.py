@@ -45,15 +45,27 @@ class ProductTemplate(models.Model):
 
 
 
-    @api.onchange('onelab_senasa_expiration', 'onelab_min_expiry_days')
+    # @api.onchange('onelab_senasa_expiration', 'onelab_min_expiry_days')
+    # def _onchange_senasa_expiry_warning(self):
+    #     for record in self:
+    #         if record.onelab_senasa_expiration and record.onelab_min_expiry_days:
+    #             threshold = date.today() + timedelta(days=record.onelab_min_expiry_days)
+    #             if record.onelab_senasa_expiration <= threshold:
+    #                 return {
+    #                     'warning': {
+    #                         'title': 'Alerta de vencimiento SENASA',
+    #                         'message': '⚠️ El certificado SENASA está próximo a vencer según el mínimo aceptado.',
+    #                     }
+    #                 }
+    @api.onchange('onelab_senasa_expiration')
     def _onchange_senasa_expiry_warning(self):
         for record in self:
-            if record.onelab_senasa_expiration and record.onelab_min_expiry_days:
-                threshold = date.today() + timedelta(days=record.onelab_min_expiry_days)
+            if record.onelab_senasa_expiration:
+                threshold = date.today() + timedelta(days=45)
                 if record.onelab_senasa_expiration <= threshold:
                     return {
                         'warning': {
                             'title': 'Alerta de vencimiento SENASA',
-                            'message': '⚠️ El certificado SENASA está próximo a vencer según el mínimo aceptado.',
+                            'message': '⚠️ El certificado SENASA está próximo a vencer (menos de 45 días).',
                         }
                     }
