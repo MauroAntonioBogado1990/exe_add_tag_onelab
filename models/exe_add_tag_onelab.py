@@ -63,9 +63,53 @@ class ProductTemplate(models.Model):
             if record.onelab_senasa_expiration:
                 threshold = date.today() + timedelta(days=45)
                 if record.onelab_senasa_expiration <= threshold:
+                    formatted_date = record.onelab_senasa_expiration.strftime('%d/%m/%Y')
+
+                    cert_number = record.onelab_senasa_cert_number or 'sin numero registrado'
                     return {
                         'warning': {
                             'title': 'Alerta de vencimiento SENASA',
-                            'message': '⚠️ El certificado SENASA está próximo a vencer (menos de 45 días).',
+                            'message': f'⚠️ El certificado SENASA {cert_number}está próximo a vencer (menos de 45 días). Vencimiento: {formatted_date} '
+                        }
+                    }
+#verificacion de fecha en ventas
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    @api.onchange('product_id')
+    def _onchange_product_senasa_expiry(self):
+        for line in self:
+            product = line.product_id.product_tmpl_id
+            if product.onelab_senasa_expiration:
+                threshold = date.today() + timedelta(days=45)
+                if product.onelab_senasa_expiration <= threshold:
+                    formatted_date = product.onelab_senasa_expiration.strftime('%d/%m/%Y')
+                    cert_number = product.onelab_senasa_cert_number or 'sin número registrado'
+                    return {
+                        'warning': {
+                            'title': 'Alerta de vencimiento SENASA',
+                            'message': f'⚠️ El certificado SENASA {cert_number} está próximo a vencer (menos de 45 días). Vencimiento: {formatted_date}'
+                        }
+                    }
+
+
+#verificacion en compras
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
+
+    @api.onchange('product_id')
+    def _onchange_product_senasa_expiry(self):
+        for line in self:
+            product = line.product_id.product_tmpl_id
+            if product.onelab_senasa_expiration:
+                threshold = date.today() + timedelta(days=45)
+                if product.onelab_senasa_expiration <= threshold:
+                    formatted_date = product.onelab_senasa_expiration.strftime('%d/%m/%Y')
+                    cert_number = product.onelab_senasa_cert_number or 'sin número registrado'
+                    return {
+                        'warning': {
+                            'title': 'Alerta de vencimiento SENASA',
+                            'message': f'⚠️ El certificado SENASA {cert_number} está próximo a vencer (menos de 45 días). Vencimiento: {formatted_date}'
                         }
                     }
